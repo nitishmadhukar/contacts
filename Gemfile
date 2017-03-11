@@ -32,10 +32,15 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+group :test do
+  # rspec-rails is a testing framework for Rails 3+.
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
 
+  # Strategies for cleaning databases. Can be used to ensure a clean state for testing.
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
+end
+
+group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
@@ -45,4 +50,21 @@ group :development, :test do
 
   # Ensure consistent styling
   gem 'rubocop', require: false
+end
+
+group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'byebug'
+
+  # Use Pry as your rails console
+  gem 'pry-rails', '~> 0.3.5'
+
+  # Combine 'pry' with 'byebug'. Adds 'step', 'next', 'finish', 'continue' and 'break' commands to control execution.
+  gem 'pry-byebug', '~> 3.4', '>= 3.4.2'
+
+  # factory_girl_rails provides integration between factory_girl and rails 3 or newer (currently just automatic factory definition loading)
+  gem 'factory_girl_rails', '~> 4.8'
+
+  # Faker, a port of Data::Faker from Perl, is used to easily generate fake data: names, addresses, phone numbers, etc.
+  gem 'faker', '~> 1.7', '>= 1.7.3'
 end
