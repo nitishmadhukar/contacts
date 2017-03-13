@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Contact do
-  before :each do
-    @contact = FactoryGirl.build(:contact)
-  end
-
   describe '#new' do
+    before :each do
+      @contact = FactoryGirl.build(:contact)
+    end
+
     context 'invalid' do
       it 'without first_name' do
         @contact.first_name = nil
@@ -57,6 +57,10 @@ RSpec.describe Contact do
   end
 
   describe '#format_phone_number' do
+    before :each do
+      @contact = FactoryGirl.build(:contact)
+    end
+
     it 'removes 1- at start of phone_number field' do
       @contact.phone_number = '1-999-999-0000'
       @contact.send(:format_phone_number)
@@ -93,6 +97,10 @@ RSpec.describe Contact do
   end
 
   describe '#format_extension' do
+    before :each do
+      @contact = FactoryGirl.build(:contact)
+    end
+
     context 'when phone_number has extension' do
       it 'formats the extension' do
         @contact.phone_number = '9999990000x1234'
@@ -111,10 +119,46 @@ RSpec.describe Contact do
   end
 
   describe '#format_company_name' do
+    before :each do
+      @contact = FactoryGirl.build(:contact)
+    end
+
     it 'removes " in company_name field' do
       @contact.company_name = '"test company"'
       @contact.send(:format_company_name)
       expect(@contact.company_name).to eq('test company')
+    end
+  end
+
+  describe '.import' do
+    before :each do
+      @file = Faker::File.file_name
+      @contact = FactoryGirl.attributes_for(:contact)
+      @duplicate_contact = @contact
+    end
+
+    it 'parses csv file' do
+      expect_any_instance_of(FileUpload::Csv).to receive(:parse).and_return([@contact])
+      Contact.import(@file)
+    end
+
+    it 'returns successful status of upload' do
+      allow_any_instance_of(FileUpload::Csv).to receive(:parse).and_return([@contact])
+      status = Contact.import(@file)
+      expect(status).to eq('File uploaded successfully.')
+    end
+
+    it 'returns unsuccessful status of upload' do
+      allow_any_instance_of(FileUpload::Csv).to receive(:parse).and_return([@contact, @duplicate_contact])
+      allow(Contact).to receive(:log_error_for)
+      status = Contact.import(@file)
+      expect(status).to eq('File upload was not successful. Check log for errors.')
+    end
+
+    it 'logs errors' do
+      allow_any_instance_of(FileUpload::Csv).to receive(:parse).and_return([@contact, @duplicate_contact])
+      expect(Contact).to receive(:log_error_for)
+      Contact.import(@file)
     end
   end
 end
