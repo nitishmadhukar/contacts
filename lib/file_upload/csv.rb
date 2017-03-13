@@ -8,10 +8,10 @@ module FileUpload
 
     def parse
       data = []
-      CSV.foreach(@file,
+      CSV.foreach(@file.path,
         headers: true,
         converters: :all,
-        header_converters: lambda { |column| column.downcase.gsub(' ', '_') }
+        header_converters: :symbol
       ) do |row|
           data << row.to_hash
       end

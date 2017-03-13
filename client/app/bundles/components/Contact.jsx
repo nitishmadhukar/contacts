@@ -1,6 +1,7 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; // move to a common file when multiple components
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui';
+import FileUpload from './FileUpload';
 
 export default class Contact extends React.Component {
   state = {
@@ -11,11 +12,16 @@ export default class Contact extends React.Component {
     contacts: React.PropTypes.array
   }
 
+  addContacts = (contacts) => {
+    this.setState({contacts: contacts});
+  }
+
   render() {
     let contacts = this.state.contacts
     return(
       <MuiThemeProvider>
         <div>
+          <FileUpload addItems={this.addContacts} />
           <Table>
             <TableHeader>
               <TableRow>
