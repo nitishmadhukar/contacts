@@ -23,6 +23,7 @@ export default class Contact extends React.Component {
                 <TableHeaderColumn>Last Name</TableHeaderColumn>
                 <TableHeaderColumn>Email Address</TableHeaderColumn>
                 <TableHeaderColumn>Phone Number</TableHeaderColumn>
+                <TableHeaderColumn>Extn</TableHeaderColumn>
                 <TableHeaderColumn>Company Name</TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -34,6 +35,7 @@ export default class Contact extends React.Component {
                   <TableRowColumn>{contact.last_name}</TableRowColumn>
                   <TableRowColumn>{contact.email_address}</TableRowColumn>
                   <TableRowColumn>{contact.phone_number}</TableRowColumn>
+                  <TableRowColumn>{contact.extension}</TableRowColumn>
                   <TableRowColumn>{contact.company_name}</TableRowColumn>
                 </TableRow>
               )}
