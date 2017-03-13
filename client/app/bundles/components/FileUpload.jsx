@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import RaisedButton from 'material-ui/RaisedButton';
 
 const style = {
   border: 'none'
@@ -40,7 +41,7 @@ export default class FileUpload extends React.Component {
   render() {
     return(
       <Dropzone onDrop={this.onDrop} multiple={false} style={style}>
-        <button>File Upload</button>
+        <RaisedButton label={'File Upload'} primary={true} />
       </Dropzone>
     );
   }
