@@ -5,6 +5,21 @@ class Contact < ActiveRecord::Base
 
   before_save :format_phone_number, :format_company_name
 
+  def self.import(file)
+    contacts = FileUpload::Csv.new(file).parse
+    status = ''
+    contacts.each do |contact|
+      new_contact = Contact.create(contact)
+      status = if new_contact.invalid?
+        log_error_for(new_contact)
+        'File upload was not successful. Check log for errors.'
+      else
+        'File uploaded successfully.'
+      end
+    end
+    status
+  end
+
   private
 
   def format_phone_number
@@ -23,5 +38,11 @@ class Contact < ActiveRecord::Base
 
   def format_company_name
     self.company_name.gsub! /["]/, ''
+  end
+
+  def self.log_error_for(contact)
+    file = File.open('log/file_upload_errors.log', 'a+')
+    file.puts "#{contact.attributes} #{contact.errors.messages}\n"
+    file.close
   end
 end

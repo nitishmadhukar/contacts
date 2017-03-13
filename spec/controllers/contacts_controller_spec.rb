@@ -36,4 +36,28 @@ RSpec.describe ContactsController do
       expect(response).to redirect_to(contacts_path)
     end
   end
+
+  describe 'POST#upload' do
+    before :each do
+      @file = Faker::File.file_name
+      @contact = FactoryGirl.create(:contact)
+    end
+
+    it 'imports the csv file' do
+      expect(Contact).to receive(:import)
+      post :upload, file: @file
+    end
+
+    it 'assigns contacts list' do
+      allow(Contact).to receive(:import)
+      post :upload, file: @file
+      expect(assigns(:contacts)).to eq([@contact])
+    end
+
+    it 'responds with status 200' do
+      allow(Contact).to receive(:import)
+      post :upload, file: @file
+      expect(response.status).to eq(200)
+    end
+  end
 end
