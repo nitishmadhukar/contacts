@@ -32,6 +32,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Integration for React and Rails
+gem 'react_on_rails', '~> 6.8'
+
+gem 'mini_racer', platforms: :ruby
+
 group :test do
   # rspec-rails is a testing framework for Rails 3+.
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
