@@ -20,6 +20,13 @@ class Contact < ActiveRecord::Base
     status
   end
 
+  def self.destroy_multiple(ids)
+    transaction do
+      where(id: ids).destroy_all
+      order(:email_address)
+    end
+  end
+
   private
 
   def format_phone_number

@@ -8,6 +8,12 @@ class ContactsController < ApplicationController
   	redirect_to contacts_path
   end
 
+  def destroy_multiple
+    remaining_contacts = Contact.destroy_multiple(params[:ids])
+    @contacts = Array(remaining_contacts)
+    render json: {contacts: @contacts, message: 'Delete successful.'}, status: :ok
+  end
+
   def upload
   	status = Contact.import(params[:file])
   	@contacts = Contact.order(:email_address)

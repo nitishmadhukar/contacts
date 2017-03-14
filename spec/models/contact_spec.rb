@@ -161,4 +161,12 @@ RSpec.describe Contact do
       Contact.import(@file)
     end
   end
+
+  describe '.destroy_multiple' do
+    it 'destroys multiple contacts' do
+      2.times { FactoryGirl.create(:contact) }
+      contact_ids = Contact.ids.map(&:to_s)
+      expect(Contact.destroy_multiple(contact_ids)).to eq([])
+    end
+  end
 end

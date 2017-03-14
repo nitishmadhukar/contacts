@@ -60,4 +60,28 @@ RSpec.describe ContactsController do
       expect(response.status).to eq(200)
     end
   end
+
+  describe 'POST#destroy_multiple' do
+    before :each do
+      2.times { FactoryGirl.create(:contact) }
+      @test_ids = Contact.ids.map(&:to_s)
+    end
+
+    it 'destroys multiple contacts' do
+      expect(Contact).to receive(:destroy_multiple).with(@test_ids)
+      post :destroy_multiple, ids: @test_ids
+    end
+
+    it 'assigns contacts list' do
+      allow(Contact).to receive(:destroy_multiple).and_return([])
+      post :destroy_multiple, ids: @test_ids
+      expect(assigns(:contacts)).to eq([])
+    end
+
+    it 'responds with status 200' do
+      allow(Contact).to receive(:destroy_multiple).and_return([])
+      post :destroy_multiple, ids: @test_ids
+      expect(response.status).to eq(200)
+    end
+  end
 end
