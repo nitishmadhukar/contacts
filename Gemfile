@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -37,6 +35,10 @@ gem 'react_on_rails', '~> 6.8'
 
 gem 'mini_racer', platforms: :ruby
 
+group :production do
+  gem 'pg'
+end
+
 group :test do
   # rspec-rails is a testing framework for Rails 3+.
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
@@ -58,6 +60,9 @@ group :development do
 end
 
 group :development, :test do
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 
