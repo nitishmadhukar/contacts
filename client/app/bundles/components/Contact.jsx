@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; // move to a
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui';
 import FileUpload from './FileUpload';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 export default class Contact extends React.Component {
   state = {
@@ -87,9 +88,15 @@ export default class Contact extends React.Component {
     return(
       <MuiThemeProvider>
         <div>
-          <FileUpload addItems={this.addContacts} />
-          <RaisedButton label={'Filter by .com email'} primary={true} onClick={this.filterContacts} />
-          <RaisedButton label={'Delete'} secondary={true} onClick={this.deleteContacts} disabled={this.state.disable_delete} />
+            <Toolbar style={{backgroundColor: '#ccc'}}>
+              <ToolbarGroup>
+                <FileUpload addItems={this.addContacts} />
+                <ToolbarSeparator />
+                <RaisedButton label={'Filter by .com email'} primary={true} onClick={this.filterContacts} />
+                <ToolbarSeparator />
+                <RaisedButton label={'Delete'} secondary={true} onClick={this.deleteContacts} disabled={this.state.disable_delete} />
+              </ToolbarGroup>
+            </Toolbar>
             <Table onRowSelection={this.selectContacts} multiSelectable={true}>
               <TableHeader>
                 <TableRow>
