@@ -72,12 +72,23 @@ export default class Contact extends React.Component {
     return contact_ids
   }
 
+  filterContacts = () => {
+    var filtered_contacts = [];
+    filtered_contacts = this.state.contacts.filter((contact) => {
+      return(contact.email_address.indexOf('.com') != -1);
+    });
+    this.setState({
+      contacts: filtered_contacts
+    });
+  }
+
   render() {
     let contacts = this.state.contacts
     return(
       <MuiThemeProvider>
         <div>
           <FileUpload addItems={this.addContacts} />
+          <RaisedButton label={'Filter by .com email'} primary={true} onClick={this.filterContacts} />
           <RaisedButton label={'Delete'} secondary={true} onClick={this.deleteContacts} disabled={this.state.disable_delete} />
             <Table onRowSelection={this.selectContacts} multiSelectable={true}>
               <TableHeader>
